@@ -1,13 +1,18 @@
-import React from "react";
+import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import "./assets/stylesheets/main.scss";
+import { GridThemeProvider } from "styled-bootstrap-grid";
+import { GlobalStyle } from "./assets/stylesheets/GlobalStyle";
+import { grid } from "./assets/stylesheets/grid";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Fragment>
+    <GlobalStyle />
+    <GridThemeProvider gridTheme={grid}>
+      <App />
+    </GridThemeProvider>
+  </Fragment>,
   document.getElementById("root")
 );
 
