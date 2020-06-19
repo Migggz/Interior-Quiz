@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "./components/Layout";
 import { Container, Row, Col } from "styled-bootstrap-grid";
 import QuizForm from "./containers/QuizForm";
+
 function App() {
   return (
     <Layout>

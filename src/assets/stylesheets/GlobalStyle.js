@@ -68,9 +68,28 @@ export const GlobalStyle = createGlobalStyle`
   textarea:focus {
     outline: none;
   }
+  .steps {
+    position: absolute;
+  }
+  .example-enter {
+    opacity: 0.01;
+    transform: translateY(8px)
+  }
 
-  ::-webkit-scrollbar {
-    min-width: 1px !important ;
-    min-height: 1px !important ;
+  .example-enter.example-enter-active {
+    opacity: 1;
+    transform: translateY(0px);
+    transition: all 500ms ease-in;
+  }
+
+  .example-exit {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  .example-exit.example-exit-active {
+    opacity: 0.01;
+    transform: translateY(8px);
+    transition: all 300ms ease-in;
   }
 `;

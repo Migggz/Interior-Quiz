@@ -6,20 +6,20 @@ import { GridThemeProvider } from "styled-bootstrap-grid";
 import { GlobalStyle } from "./assets/stylesheets/GlobalStyle";
 import { Provider } from "react-redux";
 import { grid } from "./assets/stylesheets/grid";
-import configureStore from "./store";
-import { BrowserRouter as Router } from "react-router-dom";
+import configureStore, { history } from "./store";
+import { ConnectedRouter } from "connected-react-router";
 
 const store = configureStore();
 
 ReactDOM.render(
-  <Router>
-    <Provider store={store}>
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
       <GlobalStyle />
       <GridThemeProvider gridTheme={grid}>
         <App />
       </GridThemeProvider>
-    </Provider>
-  </Router>,
+    </ConnectedRouter>
+  </Provider>,
   document.getElementById("root")
 );
 
