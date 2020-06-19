@@ -25,7 +25,8 @@ export const GlobalStyle = createGlobalStyle`
     cursor: default;
     font-weight: normal;
     font-family: 'Raleway', sans-serif;
-    background-color: #FEFEFE;
+    background-color: #fdfdfd;
+    color: #333;
   }
 
   [hidden] {
