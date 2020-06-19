@@ -1,18 +1,22 @@
-import React, { Fragment } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { GridThemeProvider } from "styled-bootstrap-grid";
 import { GlobalStyle } from "./assets/stylesheets/GlobalStyle";
+import { Provider } from "react-redux";
 import { grid } from "./assets/stylesheets/grid";
+import configureStore from "./store";
+
+const store = configureStore();
 
 ReactDOM.render(
-  <Fragment>
+  <Provider store={store}>
     <GlobalStyle />
     <GridThemeProvider gridTheme={grid}>
       <App />
     </GridThemeProvider>
-  </Fragment>,
+  </Provider>,
   document.getElementById("root")
 );
 
