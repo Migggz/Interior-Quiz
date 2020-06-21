@@ -1,4 +1,8 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7818a8e1-f31f-4733-becc-a484f32b4ee9/deploy-status)](https://app.netlify.com/sites/interior-quiz/deploys)
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+1. Install Dependencies, Run `yarn` or `npm i`
+2. then, you can use on of below scripts. ex: `yarn start` or `npm run start`
 
 ## Available Scripts
 
