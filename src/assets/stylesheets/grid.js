@@ -17,13 +17,13 @@ export const grid = {
     // smaller: 575,
   },
   row: {
-    padding: 10 // default 15
+    padding: 15 // default 15
   },
   col: {
-    padding: 10 // default 15
+    padding: 15 // default 15
   },
   container: {
-    padding: 10, // default 15
+    padding: 15, // default 15
     maxWidth: {
       // defaults below
       xxl: 1200,

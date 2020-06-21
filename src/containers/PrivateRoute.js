@@ -13,7 +13,6 @@ const PrivateRoute = ({
     ? props.render
     : () => <Redirect to={firstStep.route} />;
 
-  console.log(render);
   return <Route {...props} render={render} />;
 };
 

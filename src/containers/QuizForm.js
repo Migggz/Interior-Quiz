@@ -11,48 +11,78 @@ import ColorsPage from "./ColorsPage";
 import ResultsPage from "./ResultsPage";
 import StepsNavigation from "../components/StepsNavigation";
 
-const MapComponents = [
-  RoomsPage,
-  MoodsPage,
-  FurnituresPage,
-  BrandsPage,
-  ColorsPage
-];
+const MapComponents = {
+  rooms: RoomsPage,
+  moods: MoodsPage,
+  furnitures: FurnituresPage,
+  brands: BrandsPage,
+  colors: ColorsPage
+};
 
 export default function QuizForm() {
   const router = useSelector(state => state.router);
   const quizData = useSelector(state => state.quizForm);
   const quizSteps = quizData.steps;
+  const quizStepsKeys = Object.keys(quizData.steps);
 
-  const currentStepIndex =
-    router.location.pathname === quizSteps[0].route
-      ? 0
-      : quizSteps.findIndex(step => step.route === router.location.pathname);
+  const currentRouteIsStep = quizStepsKeys.indexOf(
+    router.location.pathname.substring(1)
+  );
 
-  const nextBtnRoute = quizSteps[currentStepIndex <= 0 ? 0 : currentStepIndex]
-    .completed
-    ? quizData.completed
-      ? "/results"
-      : quizSteps[currentStepIndex + 1].route
-    : false;
+  let nextBtn, prevBtn;
 
-  const prevBtnRoute =
-    currentStepIndex <= 0 ? false : quizSteps[currentStepIndex - 1].route;
+  if (currentRouteIsStep >= 0) {
+    const isCurrentStepCompleted =
+      quizSteps[quizStepsKeys[currentRouteIsStep]].completed;
+    const isCurrentFirstStep =
+      quizSteps[quizStepsKeys[0]].route === router.location.pathname;
+    const isCurrentLastStep =
+      quizSteps[quizStepsKeys[quizStepsKeys.length - 1]].route ===
+      router.location.pathname;
+
+    nextBtn = {
+      status: isCurrentStepCompleted
+        ? isCurrentLastStep
+          ? "show-results"
+          : "next"
+        : null,
+      route: isCurrentStepCompleted
+        ? isCurrentLastStep
+          ? "/results"
+          : quizSteps[quizStepsKeys[currentRouteIsStep + 1]].route
+        : false
+    };
+    prevBtn = {
+      status: isCurrentFirstStep ? false : "back",
+      route: isCurrentFirstStep
+        ? ""
+        : quizSteps[quizStepsKeys[currentRouteIsStep - 1]].route
+    };
+  } else {
+    nextBtn = {
+      status: "restart-quiz",
+      route: quizSteps[quizStepsKeys[0]].route
+    };
+    prevBtn = {
+      status: "back",
+      route: quizSteps[quizStepsKeys[quizStepsKeys.length - 1]].route
+    };
+  }
 
   return (
     <Fragment>
       <Switch>
-        {quizSteps.map((step, index) => {
-          const Component = MapComponents[index];
-          const prevStep = quizSteps[index - 1];
+        {quizStepsKeys.map((stepKey, index) => {
+          const Component = MapComponents[stepKey];
+          const prevStep = quizSteps[quizStepsKeys[index - 1]];
 
           return (
             <PrivateRoute
               isPrevCompleted={prevStep ? prevStep.completed : true}
-              firstStep={quizSteps[0]}
+              firstStep={quizSteps[quizStepsKeys[0]]}
               exact
-              key={"Step - " + index}
-              path={step.route}
+              key={"Step - " + index + 1}
+              path={quizSteps[stepKey].route}
               render={props => <Component {...props} />}
             />
           );
@@ -60,16 +90,25 @@ export default function QuizForm() {
 
         <PrivateRoute
           showResults={quizData.completed}
+          isPrevCompleted={
+            quizSteps[quizStepsKeys[quizStepsKeys.length - 1]].completed
+          }
+          firstStep={quizSteps[quizStepsKeys[0]]}
           exact
           path="/results"
           render={props => <ResultsPage {...props} />}
         />
 
-        <Redirect from="/" to={quizSteps[0].route} />
+        <Redirect from="/" to={quizSteps[quizStepsKeys[0]].route} />
       </Switch>
       <StepsNavigation
-        nextBtnRoute={nextBtnRoute}
-        prevBtnRoute={prevBtnRoute}
+        nextBtn={nextBtn}
+        prevBtn={prevBtn}
+        percentage={
+          currentRouteIsStep >= 0
+            ? (currentRouteIsStep / quizStepsKeys.length) * 100
+            : 100
+        }
       />
     </Fragment>
   );
